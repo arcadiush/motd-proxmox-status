@@ -47,6 +47,14 @@ chmod +x install.sh
 
 ---
 
+## Instalacja przez jedno polecenie
+
+Wklej poniższe polecenie w terminalu, aby pobrać i uruchomić instalator:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh)
+```
+
 ## 📩 Konfiguracja Telegram (opcjonalna)
 
 1. Utwórz bota na [@BotFather](https://t.me/BotFather) i uzyskaj `BOT_TOKEN`.
@@ -62,25 +70,6 @@ Zapisz i wykonaj `source ~/.bashrc`.
 
 ---
 
-## 🖼️ Jak umieścić baner na GitHub
-
-1. Nazwij plik z grafiką jako `banner.png` i umieść go w katalogu głównym repozytorium.
-2. Dodaj go do Git:
-
-```bash
-git add banner.png
-git commit -m "Dodano baner graficzny"
-git push
-```
-
-3. W pliku `README.md` upewnij się, że masz poniższą linijkę, aby wyświetlać baner:
-
-```markdown
-![MOTD Screenshot](panel.png)
-```
-
----
-
 ## 🧑‍💻 Autor
 
 MOTD by Arek | PSK-NET
@@ -91,10 +80,4 @@ MOTD by Arek | PSK-NET
 
 MIT License
 
-## Instalacja przez jedno polecenie
-
-Wklej poniższe polecenie w terminalu, aby pobrać i uruchomić instalator:
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh)
 ```
