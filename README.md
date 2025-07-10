@@ -79,5 +79,3 @@ MOTD by Arek | PSK-NET
 ## 📄 Licencja
 
 MIT License
-
-```
