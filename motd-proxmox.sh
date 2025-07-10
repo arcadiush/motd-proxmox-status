@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 🔧 KONFIGURACJA
-BOT_TOKEN="${BOT_TOKEN:-}"
-CHAT_ID="${CHAT_ID:-}"
+BOT_TOKEN=""
+CHAT_ID=""
 
 # Nagłówek: PROXMOX
 figlet -w 120 "PROXMOX 1" | lolcat

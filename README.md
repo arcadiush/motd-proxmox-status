@@ -2,30 +2,47 @@
 
 Prosty, kolorowy skrypt `bash` do wyświetlania informacji o systemie Proxmox na ekranie logowania (motd), wraz z integracją Telegram.
 
-## Wymagania
+## 📦 Wymagania
 
-- `bash`, `figlet`, `lolcat`, `curl`, `sensors`, `lsb-release`, `pveversion`
-- System: Debian / Proxmox VE
-- Opcjonalnie: Telegram bot (`BOT_TOKEN`, `CHAT_ID`)
+- System operacyjny: **Debian / Proxmox VE**
+- Narzędzia:
+  - `bash`, `figlet`, `lolcat`, `curl`, `sensors`, `lsb-release`, `pveversion`
 
-## Instalacja
+## ✅ Instalacja
 
 1. Zainstaluj wymagane pakiety:
-   ```bash
-   apt install figlet lolcat curl lm-sensors lsb-release -y
-   ```
-2. Skopiuj skrypt:
-   ```bash
-   cp motd-proxmox.sh /etc/profile.d/motd-proxmox.sh
-   chmod +x /etc/profile.d/motd-proxmox.sh
-   ```
 
-3. (Opcjonalnie) Skonfiguruj Telegram:
-   ```bash
-   export BOT_TOKEN="your_bot_token"
-   export CHAT_ID="your_chat_id"
-   ```
+    ```bash
+    apt update
+    apt install -y figlet lolcat curl lm-sensors lsb-release
+    ```
 
-## Autor
+2. Skrypt możesz zainstalować ręcznie:
+
+    ```bash
+    cp motd-proxmox.sh /etc/profile.d/motd-proxmox.sh
+    chmod +x /etc/profile.d/motd-proxmox.sh
+    ```
+
+    Lub uruchamiając automatycznie:
+
+    ```bash
+    chmod +x install.sh
+    ./install.sh
+    ```
+
+3. (Opcjonalnie) Ustaw dane do Telegrama:
+
+    W pliku `motd-proxmox.sh` podaj:
+    ```bash
+    BOT_TOKEN="twoj_token"
+    CHAT_ID="twoje_chat_id"
+    ```
+
+## 🖼 Podgląd
+
+![Banner](banner.png)
+
+## ✍️ Autor
 
 MOTD by Arek | PSK-NET
