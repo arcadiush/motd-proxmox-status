@@ -1,6 +1,7 @@
 # MOTD Proxmox Server Dash
 
 Prosty, kolorowy skrypt `bash` do wyświetlania informacji o systemie Proxmox na ekranie logowania (motd), wraz z integracją Telegram.
+![Banner](banner.png)
 
 ## 📦 Wymagania
 
@@ -41,7 +42,7 @@ Prosty, kolorowy skrypt `bash` do wyświetlania informacji o systemie Proxmox na
 
 ## 🖼 Podgląd
 
-![Banner](banner.png)
+![Banner](panel.png)
 
 ## ✍️ Autor
 
