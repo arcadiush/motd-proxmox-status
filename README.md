@@ -1,81 +1,43 @@
-# MOTD Proxmox Server Dashboard
+# MOTD Proxmox & Universal Status
 
-Kolorowy i funkcjonalny `motd` dashboard dla serwerów z systemem **Proxmox (Debian)**. Wyświetla szczegóły systemu, klastra, maszyn wirtualnych i opcjonalnie wysyła powiadomienia na Telegram.
+Skrypt MOTD do wyświetlania estetycznych informacji systemowych przy logowaniu na serwer przez SSH lub lokalnie.
 
-![MOTD Screenshot](banner.png)
+## 📂 Zawartość repozytorium
 
----
+- `motd-proxmox.sh` – dedykowany dla węzłów Proxmox
+- `motd-generic.sh` – uniwersalna wersja dla każdej maszyny (VM, LXC, bare-metal)
+- `install.sh` – instalator skryptu i zależności
 
-## ✨ Funkcje
+## 🧩 Wymagania
 
-- Informacje o systemie, klastrze i zasobach
-- Lista maszyn wirtualnych (VM) z kolorowym statusem
-- Temperatura CPU, dostępne aktualizacje, obciążenie, użytkownicy
-- Powiadomienia Telegram o stanie maszyn i aktualizacjach (opcjonalne)
-- Automatyczna instalacja przez `install.sh`
+Skrypt wymaga następujących pakietów (zostaną zainstalowane przez `install.sh`):
 
----
-
-## 🛠️ Wymagania
-
-System: **Debian / Proxmox VE**
-
-Pakiety wymagane:
 ```bash
-apt update && apt install figlet lolcat curl lm-sensors lsb-release -y
+apt install figlet lolcat toilet lsb-release lm-sensors -y
 ```
 
----
+## 🖥️ Instalacja
 
-## 🚀 Instalacja
-
-1. Klonuj repozytorium:
+Uruchom jako root:
 
 ```bash
-git clone https://github.com/arcadiush/motd-proxmox-status.git
+git clone https://github.com/TwojUser/motd-proxmox-status.git
 cd motd-proxmox-status
-```
-
-2. Uruchom instalator:
-
-```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-3. Zaloguj się ponownie, by zobaczyć efekt 🎉
+## ⚙️ Konfiguracja
 
----
-
-## Instalacja przez jedno polecenie
-
-Wklej poniższe polecenie w terminalu, aby pobrać i uruchomić instalator:
+W `motd-generic.sh` możesz ustawić styl baneru:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh)
+BANNER_STYLE="figlet"   # lub "toilet"
 ```
 
-## 📩 Konfiguracja Telegram (opcjonalna)
-
-1. Utwórz bota na [@BotFather](https://t.me/BotFather) i uzyskaj `BOT_TOKEN`.
-2. Sprawdź swój `CHAT_ID` np. przez [@userinfobot](https://t.me/userinfobot).
-3. W pliku `~/.bashrc` (lub `~/.profile`) dodaj:
-
-```bash
-export BOT_TOKEN="123456789:ABCdEfGhiJKlmnoPQRstUvWXYZ"
-export CHAT_ID="123456789"
-```
-
-Zapisz i wykonaj `source ~/.bashrc`.
+Możesz też dodać flagę `DEBUG` w przyszłości, by wyłączyć banner w skryptach automatycznych.
 
 ---
 
-## 🧑‍💻 Autor
-
-MOTD by Arek | PSK-NET
-
----
-
-## 📄 Licencja
-
-MIT License
+Autor: Arek • PSK‑NET  
+Repozytorium: [github.com/TwojUser/motd-proxmox-status](https://github.com/TwojUser/motd-proxmox-status)
