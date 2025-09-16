@@ -4,8 +4,14 @@
 BOT_TOKEN=""
 CHAT_ID=""
 
-# Nagłówek: PROXMOX
-figlet -w 120 "PROXMOX 1" | lolcat
+# Nagłówek: PROXMOX (z fallbackiem, gdy brak lolcat)
+if command -v figlet >/dev/null 2>&1; then
+  if command -v lolcat >/dev/null 2>&1; then
+    figlet -w 120 "PROXMOX" | lolcat
+  else
+    figlet -w 120 "PROXMOX"
+  fi
+fi
 
 # Informacje o systemie
 echo
