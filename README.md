@@ -39,6 +39,20 @@ sudo ./install.sh
 
 Instalator zapyta, którą wersję zainstalować i umieści skrypt w `/etc/update-motd.d/`.
 
+### 🚀 Szybki start – jedna komenda
+
+Bez klonowania repozytorium, od razu uruchom instalator:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh | sudo bash
+```
+
+albo przez `wget`:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh | sudo bash
+```
+
 ## ⚙️ Konfiguracja
 
 W `motd-generic.sh` możesz ustawić styl baneru:
