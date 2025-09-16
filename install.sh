@@ -44,4 +44,17 @@ else
   echo "✅ Zainstalowano wersję uniwersalną. (wariant: $VARIANT)"
 fi
 
+install_bin() {
+  local src="$1"; local dst="$2"
+  if [[ -f "$src" ]]; then
+    install -m 0755 "$src" "$dst"
+    echo "✅ Zainstalowano: $dst"
+  fi
+}
+
+mkdir -p /usr/local/bin
+install_bin monitor-proxmox.sh /usr/local/bin/monitor-proxmox.sh
+install_bin monitor-generic.sh /usr/local/bin/monitor-generic.sh
+
 echo "ℹ️  Możesz wymusić wariant: 'INSTALL_VARIANT=proxmox bash install.sh' lub 'bash install.sh generic'"
+echo "ℹ️  Skrypty monitorujące (jeśli obecne) zostały skopiowane do /usr/local/bin/."

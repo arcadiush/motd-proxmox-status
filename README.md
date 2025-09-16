@@ -82,6 +82,46 @@ CHAT_ID=""
 
 > Uwaga: Alerty są wysyłane tylko, gdy istnieją komunikaty (np. zatrzymane VM lub dużo aktualizacji) i oba pola są wypełnione.
 
+### 📣 Powiadomienia Telegram – monitor w tle
+
+Repo zawiera także skrypty monitorujące, które możesz uruchomić cyklicznie (cron). Wysyłają powiadomienia na Telegram przy wykryciu problemów.
+
+Konfiguracja (ustaw w plikach lub przez zmienne środowiskowe):
+
+```bash
+BOT_TOKEN="123456:ABC..."   # token bota
+CHAT_ID="-1001234567890"    # ID czatu/kanału
+# Progi (domyślne w skryptach):
+MAX_LOAD_1=4.0
+MAX_CPU_TEMP=85             # °C
+MIN_ROOT_FREE_GB=5          # / wolne GB
+MAX_UPGRADES=50
+```
+
+Proponowane alerty – Proxmox (`monitor-proxmox.sh`):
+- Zatrzymane VM/LXC (status inny niż running)
+- Wysokie obciążenie (load 1m > `MAX_LOAD_1`)
+- Wysoka temperatura CPU (> `MAX_CPU_TEMP`)
+- Mało wolnego miejsca na `/` (< `MIN_ROOT_FREE_GB`)
+- Dużo aktualizacji APT (>= `MAX_UPGRADES`)
+- Problem z klastrem (brak quorum, niedostępne węzły – jeśli dostępne komendy `pvecm`)
+
+Proponowane alerty – wersja uniwersalna (`monitor-generic.sh`):
+- Wysokie obciążenie, wysoka temperatura CPU
+- Mało wolnego miejsca na `/`
+- Dużo aktualizacji APT
+- Usługi systemd w stanie `failed`
+
+Uruchomienie w tle (cron):
+
+```bash
+# co 5 min Proxmox
+*/5 * * * * BOT_TOKEN=xxx CHAT_ID=yyy /usr/local/bin/monitor-proxmox.sh >/dev/null 2>&1
+
+# co 10 min wersja uniwersalna
+*/10 * * * * BOT_TOKEN=xxx CHAT_ID=yyy /usr/local/bin/monitor-generic.sh >/dev/null 2>&1
+```
+
 ## 🖼️ Podgląd
 
 Przykładowy widok panelu informacyjnego:
