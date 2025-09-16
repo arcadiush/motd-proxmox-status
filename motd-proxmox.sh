@@ -4,13 +4,16 @@
 BOT_TOKEN=""
 CHAT_ID=""
 
-# Nagłówek: PROXMOX (z fallbackiem, gdy brak lolcat)
+# Nagłówek: nazwa hosta (np. PROXMOX2) z fallbackiem, gdy brak lolcat
+HOSTNAME_UPPER=$(hostname | tr '[:lower:]' '[:upper:]')
 if command -v figlet >/dev/null 2>&1; then
   if command -v lolcat >/dev/null 2>&1; then
-    figlet -w 120 "PROXMOX" | lolcat
+    figlet -w 120 "$HOSTNAME_UPPER" | lolcat
   else
-    figlet -w 120 "PROXMOX"
+    figlet -w 120 "$HOSTNAME_UPPER"
   fi
+else
+  echo -e "\e[1;33m$HOSTNAME_UPPER\e[0m"
 fi
 
 # Informacje o systemie

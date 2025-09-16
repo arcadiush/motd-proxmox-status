@@ -6,6 +6,7 @@ set -e
 # Priorytet: $1 (argument) > $INSTALL_VARIANT (env) > autodetekcja
 
 VARIANT="${1:-${INSTALL_VARIANT:-}}"
+DISABLE_UNAME="${INSTALL_DISABLE_UNAME:-0}"
 
 if [[ -z "$VARIANT" ]]; then
   if command -v pveversion >/dev/null 2>&1 || [[ -d /etc/pve ]]; then
@@ -29,18 +30,44 @@ case "$VARIANT" in
 esac
 
 echo "🔧 Instalacja zależności..."
-apt update
-apt install -y figlet lolcat toilet lsb-release lm-sensors
+
+install_deps() {
+  if command -v apt >/dev/null 2>&1; then
+    apt update && apt install -y figlet lolcat toilet lsb-release lm-sensors
+    return
+  fi
+  if command -v dnf >/dev/null 2>&1; then
+    dnf install -y figlet lolcat toilet redhat-lsb-core lm_sensors || true
+    return
+  fi
+  if command -v yum >/dev/null 2>&1; then
+    yum install -y figlet lolcat toilet redhat-lsb-core lm_sensors || true
+    return
+  fi
+  if command -v zypper >/dev/null 2>&1; then
+    zypper install -y figlet lolcat toilet lsb-release sensors || true
+    return
+  fi
+  if command -v pacman >/dev/null 2>&1; then
+    pacman -Sy --noconfirm figlet lolcat toilet lsb-release lm_sensors || true
+    return
+  fi
+  if command -v apk >/dev/null 2>&1; then
+    apk add --no-cache figlet lolcat toilet lsb-release lm-sensors || true
+    return
+  fi
+  echo "⚠️  Nie wykryto wspieranego menedżera pakietów. Pomijam instalację zależności." >&2
+}
+
+install_deps || true
 
 mkdir -p /etc/update-motd.d
 
 if [[ "$VARIANT" == "proxmox" ]]; then
-  cp motd-proxmox.sh /etc/update-motd.d/10-proxmox
-  chmod +x /etc/update-motd.d/10-proxmox
+  install -m 0755 motd-proxmox.sh /etc/update-motd.d/10-proxmox
   echo "✅ Zainstalowano wersję Proxmox. (wariant: $VARIANT)"
 else
-  cp motd-generic.sh /etc/update-motd.d/10-generic
-  chmod +x /etc/update-motd.d/10-generic
+  install -m 0755 motd-generic.sh /etc/update-motd.d/10-generic
   echo "✅ Zainstalowano wersję uniwersalną. (wariant: $VARIANT)"
 fi
 
@@ -58,3 +85,8 @@ install_bin monitor-generic.sh /usr/local/bin/monitor-generic.sh
 
 echo "ℹ️  Możesz wymusić wariant: 'INSTALL_VARIANT=proxmox bash install.sh' lub 'bash install.sh generic'"
 echo "ℹ️  Skrypty monitorujące (jeśli obecne) zostały skopiowane do /usr/local/bin/."
+
+if [[ "$DISABLE_UNAME" == "1" ]] && [[ -x /etc/update-motd.d/10-uname ]]; then
+  chmod -x /etc/update-motd.d/10-uname || true
+  echo "ℹ️  Wyłączono /etc/update-motd.d/10-uname (INSTALL_DISABLE_UNAME=1)"
+fi
