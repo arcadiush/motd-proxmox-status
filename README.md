@@ -56,7 +56,7 @@ albo przez `wget`:
 wget -qO- https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh | sudo bash
 ```
 
-Instalator automatycznie wykryje środowisko Proxmox (na podstawie `pveversion` lub `/etc/pve`) i zainstaluje odpowiedni wariant. 
+Instalator automatycznie wykryje środowisko Proxmox (na podstawie `pveversion` lub `/etc/pve`) i zainstaluje odpowiedni wariant. W trybie curl|bash sam pobierze brakujące pliki (`motd-*.sh`, `monitor-*.sh`) bez konieczności klonowania repozytorium.
 
 Możesz też wymusić wariant:
 

@@ -9,6 +9,7 @@ VARIANT="${1:-${INSTALL_VARIANT:-}}"
 DISABLE_UNAME="${INSTALL_DISABLE_UNAME:-0}"
 CONFIG_DIR="/etc/motd-status"
 CONFIG_FILE="${CONFIG_DIR}/config"
+RAW_BASE_URL="https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main"
 
 if [[ -z "$VARIANT" ]]; then
   if command -v pveversion >/dev/null 2>&1 || [[ -d /etc/pve ]]; then
@@ -66,10 +67,32 @@ install_deps || true
 mkdir -p /etc/update-motd.d
 mkdir -p "$CONFIG_DIR"
 
+# Pobieranie plików w trybie curl|bash (gdy brak lokalnych źródeł)
+fetch_if_missing() {
+  local rel_path="$1"
+  if [[ -f "$rel_path" ]]; then
+    return 0
+  fi
+  if command -v curl >/dev/null 2>&1; then
+    echo "⬇️  Pobieram $rel_path z repo..."
+    curl -fsSL "$RAW_BASE_URL/$rel_path" -o "$rel_path"
+    return 0
+  fi
+  if command -v wget >/dev/null 2>&1; then
+    echo "⬇️  Pobieram $rel_path z repo..."
+    wget -q "$RAW_BASE_URL/$rel_path" -O "$rel_path"
+    return 0
+  fi
+  echo "❌ Brak pliku $rel_path i brak curl/wget do pobrania." >&2
+  return 1
+}
+
 if [[ "$VARIANT" == "proxmox" ]]; then
+  fetch_if_missing motd-proxmox.sh
   install -m 0755 motd-proxmox.sh /etc/update-motd.d/10-proxmox
   echo "✅ Zainstalowano wersję Proxmox. (wariant: $VARIANT)"
 else
+  fetch_if_missing motd-generic.sh
   install -m 0755 motd-generic.sh /etc/update-motd.d/10-generic
   echo "✅ Zainstalowano wersję uniwersalną. (wariant: $VARIANT)"
 fi
@@ -83,6 +106,8 @@ install_bin() {
 }
 
 mkdir -p /usr/local/bin
+fetch_if_missing monitor-proxmox.sh || true
+fetch_if_missing monitor-generic.sh || true
 install_bin monitor-proxmox.sh /usr/local/bin/monitor-proxmox.sh
 install_bin monitor-generic.sh /usr/local/bin/monitor-generic.sh
 
