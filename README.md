@@ -1,6 +1,16 @@
 # MOTD Proxmox & Universal Status
 
-Skrypt MOTD do wyświetlania estetycznych informacji systemowych przy logowaniu na serwer przez SSH lub lokalnie.
+Prosty i czytelny MOTD (Message of the Day), który wyświetla kluczowe informacje o systemie podczas logowania (SSH lub lokalnie). Dostępne są dwie wersje: dedykowana dla węzłów Proxmox oraz uniwersalna dla dowolnej maszyny (VM, LXC, bare‑metal).
+
+![Baner MOTD](banner.png)
+
+## ✨ Funkcje
+
+- Kolorowy baner z nazwą hosta (Figlet/Toilet + Lolcat)
+- Czytelne metryki: system, kernel, uptime, load, pamięć, dysk, użytkownicy, czas
+- Odczyt temperatury CPU (jeśli dostępne `lm-sensors`)
+- Wersja Proxmox: lista VM i informacje o klastrze
+- (Opcjonalnie) alerty Telegram dla wersji Proxmox
 
 ## 📂 Zawartość repozytorium
 
@@ -10,22 +20,24 @@ Skrypt MOTD do wyświetlania estetycznych informacji systemowych przy logowaniu 
 
 ## 🧩 Wymagania
 
-Skrypt wymaga następujących pakietów (zostaną zainstalowane przez `install.sh`):
+Skrypt wymaga następujących pakietów (mogą zostać zainstalowane przez `install.sh`):
 
 ```bash
-apt install figlet lolcat toilet lsb-release lm-sensors -y
+apt install -y figlet lolcat toilet lsb-release lm-sensors
 ```
 
 ## 🖥️ Instalacja
 
-Uruchom jako root:
+Uruchom jako root (lub z `sudo`):
 
 ```bash
 git clone https://github.com/TwojUser/motd-proxmox-status.git
 cd motd-proxmox-status
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 ```
+
+Instalator zapyta, którą wersję zainstalować i umieści skrypt w `/etc/update-motd.d/`.
 
 ## ⚙️ Konfiguracja
 
@@ -35,7 +47,29 @@ W `motd-generic.sh` możesz ustawić styl baneru:
 BANNER_STYLE="figlet"   # lub "toilet"
 ```
 
-Możesz też dodać flagę `DEBUG` w przyszłości, by wyłączyć banner w skryptach automatycznych.
+Wersja Proxmox (`motd-proxmox.sh`) obsługuje (opcjonalnie) powiadomienia Telegram. Aby je włączyć, uzupełnij na górze pliku:
+
+```bash
+BOT_TOKEN=""
+CHAT_ID=""
+```
+
+> Uwaga: Alerty są wysyłane tylko, gdy istnieją komunikaty (np. zatrzymane VM lub dużo aktualizacji) i oba pola są wypełnione.
+
+## 🖼️ Podgląd
+
+Przykładowy widok panelu informacyjnego:
+
+![Panel przykładowy](panel.png)
+
+## 🧹 Odinstalowanie
+
+Usuń odpowiedni plik z katalogu `update-motd.d`:
+
+```bash
+sudo rm -f /etc/update-motd.d/10-proxmox
+sudo rm -f /etc/update-motd.d/10-generic
+```
 
 ---
 
