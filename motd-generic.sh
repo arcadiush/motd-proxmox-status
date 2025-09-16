@@ -42,15 +42,23 @@ function print_banner() {
   echo ""
   case "$BANNER_STYLE" in
     figlet)
-      if command -v figlet >/dev/null 2>&1 && command -v lolcat >/dev/null 2>&1; then
-        figlet "$HOSTNAME" | lolcat
+      if command -v figlet >/dev/null 2>&1; then
+        if command -v lolcat >/dev/null 2>&1; then
+          figlet "$HOSTNAME" | lolcat
+        else
+          figlet "$HOSTNAME"
+        fi
       else
         echo -e "${yellow}$HOSTNAME${reset}"
       fi
       ;;
     toilet)
-      if command -v toilet >/dev/null 2>&1 && command -v lolcat >/dev/null 2>&1; then
-        toilet -f mono12 "$HOSTNAME" --filter border:metal | lolcat
+      if command -v toilet >/dev/null 2>&1; then
+        if command -v lolcat >/dev/null 2>&1; then
+          toilet -f mono12 "$HOSTNAME" --filter border:metal | lolcat
+        else
+          toilet -f mono12 "$HOSTNAME" --filter border:metal
+        fi
       else
         echo -e "${yellow}$HOSTNAME${reset}"
       fi
