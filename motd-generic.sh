@@ -40,11 +40,19 @@ BANNER_STYLE="figlet"
 # Funkcja do wyświetlenia kolorowego baneru
 function print_banner() {
   echo ""
+  # Znajdź lolcat (czasem instalowany jako /usr/games/lolcat)
+  local LOLCAT_BIN=""
+  if command -v lolcat >/dev/null 2>&1; then
+    LOLCAT_BIN="$(command -v lolcat)"
+  elif [[ -x /usr/games/lolcat ]]; then
+    LOLCAT_BIN="/usr/games/lolcat"
+  fi
+
   case "$BANNER_STYLE" in
     figlet)
       if command -v figlet >/dev/null 2>&1; then
-        if command -v lolcat >/dev/null 2>&1; then
-          figlet "$HOSTNAME" | lolcat
+        if [[ -n "$LOLCAT_BIN" ]]; then
+          figlet "$HOSTNAME" | "$LOLCAT_BIN"
         else
           figlet "$HOSTNAME"
         fi
@@ -54,8 +62,8 @@ function print_banner() {
       ;;
     toilet)
       if command -v toilet >/dev/null 2>&1; then
-        if command -v lolcat >/dev/null 2>&1; then
-          toilet -f mono12 "$HOSTNAME" --filter border:metal | lolcat
+        if [[ -n "$LOLCAT_BIN" ]]; then
+          toilet -f mono12 "$HOSTNAME" --filter border:metal | "$LOLCAT_BIN"
         else
           toilet -f mono12 "$HOSTNAME" --filter border:metal
         fi

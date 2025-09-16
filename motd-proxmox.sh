@@ -6,9 +6,17 @@ CHAT_ID=""
 
 # Nagłówek: nazwa hosta (np. PROXMOX2) z fallbackiem, gdy brak lolcat
 HOSTNAME_UPPER=$(hostname | tr '[:lower:]' '[:upper:]')
+# Znajdź lolcat nawet jeśli nie ma go w PATH (często /usr/games/lolcat)
+LOLCAT_BIN=""
+if command -v lolcat >/dev/null 2>&1; then
+  LOLCAT_BIN="$(command -v lolcat)"
+elif [[ -x /usr/games/lolcat ]]; then
+  LOLCAT_BIN="/usr/games/lolcat"
+fi
+
 if command -v figlet >/dev/null 2>&1; then
-  if command -v lolcat >/dev/null 2>&1; then
-    figlet -w 120 "$HOSTNAME_UPPER" | lolcat
+  if [[ -n "$LOLCAT_BIN" ]]; then
+    figlet -w 120 "$HOSTNAME_UPPER" | "$LOLCAT_BIN"
   else
     figlet -w 120 "$HOSTNAME_UPPER"
   fi
