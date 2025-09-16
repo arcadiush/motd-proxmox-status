@@ -7,6 +7,8 @@ set -e
 
 VARIANT="${1:-${INSTALL_VARIANT:-}}"
 DISABLE_UNAME="${INSTALL_DISABLE_UNAME:-0}"
+CONFIG_DIR="/etc/motd-status"
+CONFIG_FILE="${CONFIG_DIR}/config"
 
 if [[ -z "$VARIANT" ]]; then
   if command -v pveversion >/dev/null 2>&1 || [[ -d /etc/pve ]]; then
@@ -62,6 +64,7 @@ install_deps() {
 install_deps || true
 
 mkdir -p /etc/update-motd.d
+mkdir -p "$CONFIG_DIR"
 
 if [[ "$VARIANT" == "proxmox" ]]; then
   install -m 0755 motd-proxmox.sh /etc/update-motd.d/10-proxmox
@@ -89,4 +92,26 @@ echo "ℹ️  Skrypty monitorujące (jeśli obecne) zostały skopiowane do /usr/
 if [[ "$DISABLE_UNAME" == "1" ]] && [[ -x /etc/update-motd.d/10-uname ]]; then
   chmod -x /etc/update-motd.d/10-uname || true
   echo "ℹ️  Wyłączono /etc/update-motd.d/10-uname (INSTALL_DISABLE_UNAME=1)"
+fi
+
+# Utwórz bezpieczny plik konfiguracyjny, nie nadpisuj jeśli istnieje
+if [[ ! -f "$CONFIG_FILE" ]]; then
+  cat >"$CONFIG_FILE" <<'CONF'
+# Konfiguracja MOTD/monitoringu (Telegram i progi)
+# Uprawnienia: chmod 600 /etc/motd-status/config
+
+# Telegram
+BOT_TOKEN=""
+CHAT_ID=""
+
+# Progi (domyślne)
+MAX_LOAD_1=4.0
+MAX_CPU_TEMP=85
+MIN_ROOT_FREE_GB=5
+MAX_UPGRADES=50
+CONF
+  chmod 600 "$CONFIG_FILE" || true
+  echo "✅ Utworzono plik konfiguracyjny: $CONFIG_FILE (pamiętaj o uzupełnieniu BOT_TOKEN/CHAT_ID)"
+else
+  echo "ℹ️  Wykryto istniejącą konfigurację: $CONFIG_FILE (pozostawiono bez zmian)"
 fi

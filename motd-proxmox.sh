@@ -1,8 +1,15 @@
 #!/bin/bash
 
-# 🔧 KONFIGURACJA
-BOT_TOKEN=""
-CHAT_ID=""
+# 🔧 KONFIGURACJA (z pliku /etc/motd-status/config, jeśli istnieje)
+CONFIG_FILE="/etc/motd-status/config"
+if [[ -r "$CONFIG_FILE" ]]; then
+  # shellcheck disable=SC1090
+  . "$CONFIG_FILE"
+fi
+
+# Zmienne mogą być też nadpisane przez środowisko
+BOT_TOKEN="${BOT_TOKEN:-}"
+CHAT_ID="${CHAT_ID:-}"
 
 # Nagłówek: nazwa hosta (np. PROXMOX2) z fallbackiem, gdy brak lolcat
 HOSTNAME_UPPER=$(hostname | tr '[:lower:]' '[:upper:]')

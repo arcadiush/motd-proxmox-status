@@ -2,6 +2,13 @@
 
 set -euo pipefail
 
+# Wczytaj konfigurację jeśli istnieje
+CONFIG_FILE="/etc/motd-status/config"
+if [[ -r "$CONFIG_FILE" ]]; then
+  # shellcheck disable=SC1090
+  . "$CONFIG_FILE"
+fi
+
 BOT_TOKEN="${BOT_TOKEN:-}"
 CHAT_ID="${CHAT_ID:-}"
 
