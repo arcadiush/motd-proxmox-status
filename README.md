@@ -7,6 +7,9 @@ Prosty i czytelny MOTD (Message of the Day), który wyświetla kluczowe informac
 ## ✨ Funkcje
 
 - Kolorowy baner z nazwą hosta (Figlet/Toilet + Lolcat)
+ - Kolorowy baner z nazwą hosta (Figlet/Toilet + Lolcat)
+   - Automatyczne wykrywanie `lolcat` także pod `/usr/games/lolcat`
+   - Fallback: gdy `lolcat` niedostępny, wyświetlany jest baner bez koloru
 - Czytelne metryki: system, kernel, uptime, load, pamięć, dysk, użytkownicy, czas
 - Odczyt temperatury CPU (jeśli dostępne `lm-sensors`)
 - Wersja Proxmox: lista VM i informacje o klastrze
@@ -86,6 +89,19 @@ CHAT_ID=""
 
 Repo zawiera także skrypty monitorujące, które możesz uruchomić cyklicznie (cron). Wysyłają powiadomienia na Telegram przy wykryciu problemów.
 
+Format wiadomości (przykład):
+
+```
+🚨 Alerty Proxmox: NAZWA_HOSTA
+• VM 101 (web) status: stopped
+• LXC 202 status: paused
+• Wysokie obciążenie: load1=6.2 > 4.0
+• Wysoka temperatura CPU: 90°C > 85°C
+• Mało miejsca na /: 3GB < 5GB
+• Dostępnych aktualizacji: 120 >= 50
+• Cluster: brak quorum lub problem z klastrem
+```
+
 Konfiguracja (ustaw w plikach lub przez zmienne środowiskowe):
 
 ```bash
@@ -139,5 +155,5 @@ sudo rm -f /etc/update-motd.d/10-generic
 
 ---
 
-Autor: Arek • PSK‑NET  
+Autor: Arkadiusz Sobacki • PSK‑NET  
 Repozytorium: [github.com/TwojUser/motd-proxmox-status](https://github.com/TwojUser/motd-proxmox-status)

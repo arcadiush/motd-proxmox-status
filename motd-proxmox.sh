@@ -71,7 +71,7 @@ echo -e "\e[1;34mAPT Updates:\e[0m $updates package(s) can be upgraded"
 echo -e "\e[1;34mTime:\e[0m $(date)"
 
 # MOTD stopka
-echo -e "\n\e[1;30mMOTD by Arek | PSK-NET\e[0m"
+echo -e "\n\e[1;30mMOTD by Arkadiusz Sobacki | PSK-NET\e[0m"
 
 # --- ALERTY DO TELEGRAMA ---
 [[ $updates -gt 50 ]] && ALERTS+=("Dostępnych aktualizacji: $updates")

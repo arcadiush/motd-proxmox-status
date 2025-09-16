@@ -93,3 +93,4 @@ echo -e "${blue}CPU Temp:${reset}   $CPU_TEMP"
 echo -e "${blue}Hostname:${reset}   $HOSTNAME"
 echo -e "${blue}Time:${reset}       $DATETIME"
 echo
+echo -e "${blue}MOTD by Arkadiusz Sobacki | PSK-NET${reset}"
