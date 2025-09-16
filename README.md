@@ -53,6 +53,18 @@ albo przez `wget`:
 wget -qO- https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh | sudo bash
 ```
 
+Instalator automatycznie wykryje środowisko Proxmox (na podstawie `pveversion` lub `/etc/pve`) i zainstaluje odpowiedni wariant. 
+
+Możesz też wymusić wariant:
+
+```bash
+# wymuszenie Proxmox
+curl -fsSL https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh | INSTALL_VARIANT=proxmox sudo -E bash
+
+# wymuszenie wersji uniwersalnej
+curl -fsSL https://raw.githubusercontent.com/arcadiush/motd-proxmox-status/main/install.sh | INSTALL_VARIANT=generic sudo -E bash
+```
+
 ## ⚙️ Konfiguracja
 
 W `motd-generic.sh` możesz ustawić styl baneru:
