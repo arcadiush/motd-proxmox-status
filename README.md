@@ -85,6 +85,28 @@ CHAT_ID=""
 
 > Uwaga: Alerty są wysyłane tylko, gdy istnieją komunikaty (np. zatrzymane VM lub dużo aktualizacji) i oba pola są wypełnione.
 
+### 🔐 Centralny plik konfiguracyjny
+
+Instalator tworzy bezpieczny plik konfiguracyjny:
+
+`/etc/motd-status/config` (uprawnienia 600)
+
+Domyślna zawartość (uzupełnij `BOT_TOKEN` i `CHAT_ID`):
+
+```bash
+# Telegram
+BOT_TOKEN=""
+CHAT_ID=""
+
+# Progi alertów
+MAX_LOAD_1=4.0
+MAX_CPU_TEMP=85
+MIN_ROOT_FREE_GB=5
+MAX_UPGRADES=50
+```
+
+Skrypty (`motd-proxmox.sh`, `monitor-proxmox.sh`, `monitor-generic.sh`) automatycznie wczytują ten plik. Zmienne można też nadpisywać przez zmienne środowiskowe.
+
 ### 📣 Powiadomienia Telegram – monitor w tle
 
 Repo zawiera także skrypty monitorujące, które możesz uruchomić cyklicznie (cron). Wysyłają powiadomienia na Telegram przy wykryciu problemów.
