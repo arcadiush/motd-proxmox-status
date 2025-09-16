@@ -109,6 +109,9 @@ MAX_LOAD_1=4.0
 MAX_CPU_TEMP=85
 MIN_ROOT_FREE_GB=5
 MAX_UPGRADES=50
+ 
+# Wygląd (MOTD generic)
+# BANNER_STYLE="figlet"   # albo "toilet"
 CONF
   chmod 600 "$CONFIG_FILE" || true
   echo "✅ Utworzono plik konfiguracyjny: $CONFIG_FILE (pamiętaj o uzupełnieniu BOT_TOKEN/CHAT_ID)"

@@ -98,11 +98,14 @@ Domyślna zawartość (uzupełnij `BOT_TOKEN` i `CHAT_ID`):
 BOT_TOKEN=""
 CHAT_ID=""
 
-# Progi alertów
+# Progi alertów (monitoring / motd-proxmox)
 MAX_LOAD_1=4.0
 MAX_CPU_TEMP=85
 MIN_ROOT_FREE_GB=5
 MAX_UPGRADES=50
+
+# Wygląd (motd-generic)
+# BANNER_STYLE="figlet"   # albo "toilet"
 ```
 
 Skrypty (`motd-proxmox.sh`, `monitor-proxmox.sh`, `monitor-generic.sh`) automatycznie wczytują ten plik. Zmienne można też nadpisywać przez zmienne środowiskowe.

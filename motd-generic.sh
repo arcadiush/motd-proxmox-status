@@ -13,6 +13,13 @@ magenta="\033[1;35m"
 cyan="\033[1;36m"
 reset="\033[0m"
 
+# Wczytaj konfigurację (jeśli istnieje)
+CONFIG_FILE="/etc/motd-status/config"
+if [[ -r "$CONFIG_FILE" ]]; then
+  # shellcheck disable=SC1090
+  . "$CONFIG_FILE"
+fi
+
 # Nazwa hosta
 HOSTNAME=$(hostname | tr '[:lower:]' '[:upper:]')
 
@@ -33,9 +40,9 @@ else
   CPU_TEMP="N/A"
 fi
 
-# Styl baneru: figlet lub toilet
-# Można ustawić BANNER_STYLE="figlet" lub "toilet"
-BANNER_STYLE="figlet"
+# Styl baneru: figlet lub toilet (z configu lub domyślnie figlet)
+# BANNER_STYLE może być ustawione w /etc/motd-status/config
+BANNER_STYLE="${BANNER_STYLE:-figlet}"
 
 # Funkcja do wyświetlenia kolorowego baneru
 function print_banner() {
